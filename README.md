@@ -1,44 +1,40 @@
-# 🏢 Enterprise Supply Chain & Logistics Analytics Dashboard
+# ✈️ Airline Performance & Delay Analysis Dashboard
 
-![Executive Overview](Executive%20Overview.png)
-
-## 📌 Executive Summary & Business Context
-In global supply chain management, data discrepancies and lack of visibility into inventory levels can lead to costly stockouts, overstocking, and delayed customer deliveries. 
-
-This project provides an **Enterprise-grade Power BI Solution** based on the Northwind Supply Chain dataset. It connects raw relational database operations with executive-level decision-making by tracking:
-1. **Financial Health & Sales Trends** across categories and temporal periods.
-2. **Inventory Stockout & Capital Risks** to protect working capital.
-3. **Logistics Performance & Freight Costs** to identify carrier bottlenecks.
+An interactive and comprehensive Power BI dashboard analyzing flight performance, delay causes, cancellation patterns, and airport geographic distributions.
 
 ---
 
-## 🎯 Problem Statement & Key Business Challenges
-Prior to building this analytics suite, the business faced critical operational hurdles:
-* **Data Granularity & Overcounting Risks:** Joining transaction tables (`Orders`, `Order Details`, `Products`) created one-to-many relationship duplications, leading to inflated financial and inventory totals if aggregated naively.
-* **Lack of Inventory Risk Visibility:** Management lacked an automated mechanism to distinguish between total physical stock vs. stock actively at risk of depletion.
-* **Logistics & Carrier Inefficiencies:** No centralized monitoring for delivery delays, average freight cost per order, or carrier reliability.
+## 📊 Dashboard Overview
+
+The dashboard consists of 3 main pages designed with a sleek dark-themed header and intuitive page navigation:
+
+1. **Executive Summary**: High-level overview of total flights, delayed flights, overall delay rate %, and monthly performance trends.
+2. **Delays & Cancellations**: Deep dive into delay causes (Weather, Airline, NAS, Security, Late Aircraft) and cancellation reasons.
+3. **Airports & Route Map**: Geographic map distribution of flight traffic and detailed metrics per airport.
 
 ---
 
-## 🛠️ Data Architecture & Technologies Used
-* **SQL Server / T-SQL (`instnwnd.sql`, `queris.sql`, `View.sql`):** Data extraction, transformation, structural cleanup, and creation of optimized SQL Views (`vw_SupplyChain_Analytics`) to handle complex joins at the database layer.
-* **Microsoft Power BI (`Supplu_Chain.pbix`):** Data modeling, interactive visual representation, geographic mapping, and layout engineering.
-* **DAX (Data Analysis Expressions):** Development of high-accuracy measures, evaluation context handling, dynamic KPI calculations, and time-intelligence analysis.
+## 📸 Screenshots
+
+### 1. Executive Summary
+![Executive Summary](Executive_Summary.png)
+
+### 2. Delays & Cancellations Analysis
+![Delays & Cancellations](Delays_and_Cancellations.png)
+
+### 3. Airports & Route Map
+![Airports & Route Map](Airports_and_Route_Map.png)
 
 ---
 
-## 💡 Technical Solutions & Business Logic (DAX Implementation)
-To eliminate data inflation and guarantee high business accuracy, custom DAX logic was designed:
+## 💡 Key Insights
 
-1. **Solving Granularity Duplication:**
-   To calculate true inventory values without multiplying stock by duplicate order rows, iteration over unique product dimensions was enforced:
-   $$\text{Total Inventory Value} = \sum_{p \in \text{Products}} (\text{UnitsInStock}_p \times \text{UnitPrice}_p)$$
+- **Primary Delay Driver:** Late Aircraft and Airline Delays account for the majority of non-weather delay minutes.
+- **Top Cancellation Cause:** Weather is the leading cause for flight cancellations (~54%).
+- **Peak Delay Months:** Summer months experience a higher volume of total and delayed flights compared to early spring.
 
-2. **At-Risk Inventory Quantification:**
-   Filtering logic isolates stock levels falling below designated reorder thresholds:
-   ```dax
-   At-Risk Inventory Value = 
-   CALCULATE(
-       [Total Inventory Value],
-       vw_SupplyChain_Analytics[UnitsInStock] <= vw_SupplyChain_Analytics[ReorderLevel]
-   )
+---
+
+## 🛠️ Tools & Technologies Used
+- **Power BI Desktop**: Data Modeling, DAX Measures, Custom Navigation & Visual Formatting.
+- **DAX**: Created custom measures for `Delay Rate %`, `Cancellation Rate %`, and aggregated metrics.
